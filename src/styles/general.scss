@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Seaweed+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+$logo-font: 'Seaweed Script', cursive;
+$body-font: 'Quicksand', sans-serif;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.logo {
+  font-family: $logo-font;
+}
+body {
+  font-family: $body-font;
+}
