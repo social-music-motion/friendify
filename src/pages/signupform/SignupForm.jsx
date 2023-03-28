@@ -20,7 +20,8 @@ const SignupForm = () => {
   const client_secret = 'paste your client_secret here';
   const redirect_uri = 'http://localhost:3000/signupform';
 
-  let isFirstRender = useRef(true);
+  let isFirstRender = useRef(true); 
+  // isFirstRender looks like {current: true};
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
