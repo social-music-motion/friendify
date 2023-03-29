@@ -5,10 +5,11 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const accountController = require('./controllers/accountController');
 const cookieController = require('./controllers/cookieController');
+const apiController = require('./controllers/apiController')
 // Connect to MongoDB
 mongoose.connect(
-    //paste your mongoDB Atlas key here
-  'mongodb+srv://',
+    //paste your mongoDB Atlas key here- CHANGE THIS
+  'mongodb+srv://matthew0505:u3F0swd1EWxpmonV@yeti-music.wpwzonm.mongodb.net/?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -48,6 +49,12 @@ app.patch(
   }
 );
 
+// Spotify API
+app.get('/api/login', 
+  apiController.accessAccount,
+  (req, res) => {
+    res.status(200).json('logged in');
+  })
 // route and handler of sign up
 app.post('/api/signup', accountController.createAccount, (req, res) => {
   res.status(200).json({ created_status: res.locals.account_creation });
