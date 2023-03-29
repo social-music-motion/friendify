@@ -11,16 +11,14 @@ const Homepage = () => {
 
   const requestSpotifyLogin = () => {
     //SPOTIFY API KEY
-    const client_id = 'paste your client_id here';
-    // unsure of this right now
-    const client_secret = 'paste your client_secret here';
+
     //brings back to this page after spotify login
-    const redirect_uri = 'http://localhost:3000/signupform';
+    const redirect_uri = 'http://localhost:8000/api/callback';
     //what we want to recieve from spotify
     var scope = 'user-read-email user-top-read';
 
+    const client_id = '69f2651f537c4e5681a1b568df57b973';
     localStorage.setItem('client_id', client_id);
-    localStorage.setItem('client_secret', client_secret);
 
     let queryString =
       'https://accounts.spotify.com/en/authorize?' +

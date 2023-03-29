@@ -1,26 +1,71 @@
 
-const redirectUri = 'http://localhost:3000/home';
+const redirectUri = 'http://localhost:8000/api/callback';
 const scope = encodeURIComponent('user-read-private user-read-email');
 const querystring = require('querystring');
-const state = 'WinJB947VKUbmrRn';
-const clientId = '9b043db2fbd74c34b38d6eb3bdf4678e'; // Your client id
-const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${scope}&redirect_uri=${redirectUri}&state=${state}`;
-const client_secret = 'f2e39fc5c6544c8087a3761caeea182b';
-
+const clientId = '69f2651f537c4e5681a1b568df57b973'; // Your client id
+const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${scope}&redirect_uri=${redirectUri}`;
+const dotenv = require('dotenv').config();
+const SpotifyWebApi = require('spotify-web-api-node');
 
 const apiController = {};
+// sets credentials 
+let spotifyApi = new SpotifyWebApi({
+  redirectUri: redirectUri,
+  clientId: clientId,
+  clientSecret: process.env.CLIENT_SECRET
+});
+
+apiController.getTopTenArtists = async (req, res, next) => {
+  try {
+    spotifyApi.getMyTopArtists()
+    .then(function(data) {
+      let topArtists = data.body.items;
+      console.log(topArtists);
+      res.locals.topArtists = topArtists;
+      return next();
+
+    }, function(err) {
+      console.log('Something went wrong! with spotifyApi.getMyTopArtists', err);
+    }
+    );
+
+  } catch (err) {
+    return next({
+      log: `error accessing account in apiController.getTopTenArtists, ${err}`,
+      message: { err: 'middleware error in apicontroller top ten '},
+    })
+  }
+}
+
 
 apiController.accessAccount = async (req, res, next) => {
   try {
     console.log('inside accessAccounts...')
-    res.redirect('https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id: clientId,
-      scope: scope,
-      redirect_uri: redirectUri,
-      state: state
-    }));
+    // res.redirect('https://accounts.spotify.com/authorize?' +
+    // querystring.stringify({
+    //   response_type: 'code',
+    //   client_id: clientId,
+    //   scope: scope,
+    //   redirect_uri: redirectUri,
+    // }));
+    const code = req.query.code;
+    spotifyApi.authorizationCodeGrant(code).then(
+      function(data) {
+        console.log('The token expires in ' + data.body['expires_in']);
+        console.log('The access token is ' + data.body['access_token']);
+        console.log('The refresh token is ' + data.body['refresh_token']);
+
+        // set the access token on the API object
+        spotifyApi.setAccessToken(data.body['access_token']);
+        spotifyApi.setRefreshToken(data.body['refresh_token']);
+        return next();
+      },
+      function(err) {
+        console.log('Something went wrong', err);
+        return next(err);
+      }
+    )
+    
   }
   catch (err)  {
     return next({
