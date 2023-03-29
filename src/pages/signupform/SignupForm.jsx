@@ -15,9 +15,9 @@ const SignupForm = () => {
   const [profilePicUrl, setProfilePicUrl] = useState("");
   const [bio, setBio] = useState("");
   const navigate = useNavigate();
-  const client_id = "paste your client_id here";
-  const client_secret = "paste your client_secret here";
-  const redirect_uri = "http://localhost:3000/signupform";
+  // const client_id = "paste your client_id here";
+  // const client_secret = "paste your client_secret here";
+  // const redirect_uri = "http://localhost:3000/signupform";
 
   useEffect(() => {
     fetch("http://localhost:8000/api/topartists")

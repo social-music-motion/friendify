@@ -18,7 +18,7 @@ const Homepage = () => {
     var scope = 'user-read-email user-top-read';
 
     const client_id = '69f2651f537c4e5681a1b568df57b973';
-    localStorage.setItem('client_id', client_id);
+    // localStorage.setItem('client_id', client_id);
 
     let queryString =
       'https://accounts.spotify.com/en/authorize?' +

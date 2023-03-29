@@ -13,28 +13,33 @@ let spotifyApi = new SpotifyWebApi({
   redirectUri: redirectUri,
   clientId: clientId,
   clientSecret: process.env.CLIENT_SECRET
-});
+})
 
-apiController.getTopTenArtists = async (req, res, next) => {
+apiController.getTopTenArtists =  async (req, res, next) => {
   try {
-    spotifyApi.getMyTopArtists()
-    .then(function(data) {
-      let topArtists = data.body.items;
-      console.log(topArtists);
+    console.log('req.body in getTopTen... ', req.body)
+    const data = await spotifyApi.getMyTopArtists()
+    let topArtists = data.body.items;
+    console.log(topArtists[0].name);
       res.locals.topArtists = topArtists;
       return next();
-
-    }, function(err) {
-      console.log('Something went wrong! with spotifyApi.getMyTopArtists', err);
-    }
-    );
-
-  } catch (err) {
-    return next({
-      log: `error accessing account in apiController.getTopTenArtists, ${err}`,
-      message: { err: 'middleware error in apicontroller top ten '},
-    })
+  } catch(err){
+      return next({
+        log: `error accessing account in apiController.getTopTenArtists, ${err}`,
+        message: { err: 'middleware error in apicontroller top ten '},
+      })
   }
+    // }. function(err) {
+    //   console.log('Something went wrong! with spotifyApi.getMyTopArtists', err);
+    // }
+    // );
+
+  // } catch (err) {
+  //   return next({
+  //     log: `error accessing account in apiController.getTopTenArtists, ${err}`,
+  //     message: { err: 'middleware error in apicontroller top ten '},
+  //   })
+  // }
 }
 
 
@@ -61,8 +66,11 @@ apiController.accessAccount = async (req, res, next) => {
         return next();
       },
       function(err) {
-        console.log('Something went wrong', err);
-        return next(err);
+        console.log('Something went wrong in accessing account middleware', err);
+        return next({
+          log: `error in spotifyApi.authorizationCodeGrant, ${err}`,
+          message: { err: 'middleware error in spotifyApi.authorizationCodeGrant'},
+        });
       }
     )
     
