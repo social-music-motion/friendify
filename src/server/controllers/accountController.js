@@ -48,35 +48,35 @@ Create Account Middleware:
 */
 accountController.createAccount = async (req, res, next) => {
   try {
-    console.log(req.body);
+    console.log('creating account with following req.body...', req.body);
     // destructure info from req body
     const {
-      profilePicUrl,
+      //profilePicUrl,
       email,
       firstName,
       lastName,
       password,
-      topSongs,
+      //topSongs,
       matchPreference,
       gender,
-      genderPreference,
-      biography,
+      //genderPreference,
+      //biography,
     } = req.body;
 
 
     // create new account object invoking Account schema
     const newAccount = new Account({
-      profilePicUrl,
+      //profilePicUrl,
       email,
       firstName,
       lastName,
       password,
       matchPreference,
       // join arr on a ';' to save space
-      topSongs: topSongs.join(';'),
+      //topSongs: topSongs.join(';'),
       gender,
-      genderPreference,
-      biography,
+      //genderPreference,
+      //biography,
     });
     await newAccount.save();
     res.locals.account_creation = 'success';
@@ -137,6 +137,7 @@ Get Matches Middleware
 accountController.getMatches = async (req, res, next) => {
   try {
     // grab userID from cookie
+    console.log('HEYYYYYYYY')
     const userID = await req.cookies.cookieID;
 
     // grab current account data based on that cookie
@@ -158,8 +159,12 @@ accountController.getMatches = async (req, res, next) => {
     // // save matches into a local res variable
     res.locals.allMatches = matches;
     return next();
-  } catch (e) {
-    return next(e);
+  } catch (err) {
+    return next({
+      log: 'error in accountController.getMatches',
+      status: 500,
+      message: { err: err },
+    });
   }
 };
 

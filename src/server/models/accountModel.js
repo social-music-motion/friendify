@@ -21,14 +21,14 @@ const accountSchema = new Schema(
     gender: { type: String, required: true, default: 'male' },
     genderPreference: {
       type: String,
-      required: true,
+      required: false,
       default: this.gender === 'male' ? 'female' : 'male',
     },
     biography: { type: String, default: '...' },
     // received as an array from spotify api (from front end) stored as a string bc less memory expensive
-    topSongs: { type: String, required: true },
+    topSongs: { type: String, required: false },
     // metric will be used to match users with one another (matches user with others on minimum number of common artists)
-    matchPreference: { type: Number, required: true, default: 1 },
+    matchPreference: { type: Number, required: false, default: 1 },
   },
   // explicitly name collection so no pluralization bullshit
   { collection: 'accounts' }

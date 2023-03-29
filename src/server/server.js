@@ -7,8 +7,7 @@ const accountController = require('./controllers/accountController');
 const cookieController = require('./controllers/cookieController');
 // Connect to MongoDB
 mongoose.connect(
-    //paste your mongoDB Atlas key here
-  'mongodb+srv://',
+   'mongodb+srv://ian:lol@friendify.std6cyj.mongodb.net/?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -29,6 +28,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+//TEST
+app.get('/testingroutes', (req, res) => {
+  res.status(200).json('success')
+})
+
+
+
 // get all matches for particular user
 app.get('/api/getMatches', accountController.getMatches, (req, res) => {
   res.status(200).json(res.locals.allMatches);
@@ -44,7 +50,7 @@ app.patch(
   '/api/changeGenderPreferences',
   accountController.changeGenderPreferences,
   (req, res) => {
-    res.status(200).json('success');
+    res.status(200);
   }
 );
 
@@ -80,3 +86,5 @@ const port = 8000;
 app.listen(port, () => {
   console.log(`Server has started on ${port}`);
 });
+
+module.exports = app;
