@@ -48,7 +48,7 @@ const Login = () => {
         {/* <label htmlFor='email'>Email: </label> */}
         <input
           type='text'
-          id='username'
+          id='email'
           required={true}
           onChange={(e) => setUsername(e.target.value)}
           placeholder='Email'
