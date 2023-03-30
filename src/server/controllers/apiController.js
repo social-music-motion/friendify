@@ -1,6 +1,6 @@
 
 const redirectUri = 'http://localhost:8000/api/callback';
-const scope = encodeURIComponent('user-read-private user-read-email');
+const scope = encodeURIComponent('user-read-private user-read-email user-follow-modify user-follow-read');
 const querystring = require('querystring');
 const clientId = '69f2651f537c4e5681a1b568df57b973'; // Your client id
 const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${scope}&redirect_uri=${redirectUri}`;
@@ -34,14 +34,6 @@ apiController.getTopTenArtists =  async (req, res, next) => {
 
 apiController.accessAccount = async (req, res, next) => {
   try {
-    console.log('inside accessAccounts...')
-    // res.redirect('https://accounts.spotify.com/authorize?' +
-    // querystring.stringify({
-    //   response_type: 'code',
-    //   client_id: clientId,
-    //   scope: scope,
-    //   redirect_uri: redirectUri,
-    // }));
     const code = req.query.code;
     spotifyApi.authorizationCodeGrant(code).then(
       function(data) {
@@ -52,6 +44,7 @@ apiController.accessAccount = async (req, res, next) => {
         // set the access token on the API object
         spotifyApi.setAccessToken(data.body['access_token']);
         spotifyApi.setRefreshToken(data.body['refresh_token']);
+        console.log("SPOTIFY API OBJECT HERE ",spotifyApi)
         return next();
       },
       function(err) {
@@ -72,14 +65,42 @@ apiController.accessAccount = async (req, res, next) => {
   }   
 }
 
-/* Follow a user */
-// spotifyApi.followUsers(['thelinmichael'])
-//   .then(function(data) {
-//      console.log(data);
-//   }, function(err) {
-//     console.log('Something went wrong!', err);
-//   }); 
+apiController.accessRefresh = async (req, res, next) => {
 
+  try {
+    spotifyApi.refreshAccessToken().then(
+      function(data) {
+        console.log('The access token has been refreshed!');
+
+        // Save the access token so that it's used in future calls
+        spotifyApi.setAccessToken(data.body['access_token']);
+      },
+      function(err) {
+        console.log('Could not refresh access token', err);
+      }
+    )
+    return next()
+  } catch (err) {
+    return next({
+      log: `error accessing account in apiController.accessRefresh, ${err}`,
+      message: { err: 'middleware error in accessRefresh'},
+    })
+  }
+}
+
+apiController.followUser = async (req, res, next) => {
+  try {
+    let data = await spotifyApi.followUsers(['heyianhey']);
+    console.log("data from followUsers is", data);
+    return next();
+  } catch (err) {
+    return next({
+      log: `error accessing account in apiController.followUser, ${err}`,
+      message: { err: 'middleware error in followUser'},
+    })
+  }
+
+};
 
 
 

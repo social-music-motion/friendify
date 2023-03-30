@@ -1,0 +1,18 @@
+[{
+  "email" : "anna@gmail.com",
+  "password": "anna123"
+}]
+
+
+{
+    "profilePicUrl": "",
+    "email": "anna@gmail.com",
+    "firstName": "Anna",
+    "lastName": "Tran",
+    "password": "codesmith",
+    "topSongs": [],
+    "matchPreference": "",
+    "gender": "",
+    "genderPreference": "",
+    "biography": "",
+}
