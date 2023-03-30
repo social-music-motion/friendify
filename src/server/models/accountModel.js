@@ -18,12 +18,6 @@ const accountSchema = new Schema(
     // unique account identifier along with Account._id
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    gender: { type: String, required: true, default: 'male' },
-    genderPreference: {
-      type: String,
-      required: false,
-      default: this.gender === 'male' ? 'female' : 'male',
-    },
     biography: { type: String, default: '...' },
     // received as an array from spotify api (from front end) stored as a string bc less memory expensive
     topSongs: { type: String, required: false },
@@ -42,7 +36,7 @@ accountSchema.pre('save', async function (next) {
       const hash = await bcrypt.hash(user.password, 10);
       user.password = hash;
       return next();
-    } catch (e) {
+    } catch (err) {
       return next(err);
     }
   } else {
