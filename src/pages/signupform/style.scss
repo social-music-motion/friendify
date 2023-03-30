@@ -1,20 +1,40 @@
 @import '../../styles/general.scss';
-
+$logo-font: 'Audiowide', cursive;
 #signup-container {
-  background-color: pink;
+  background-color: rgb(223, 221, 219, 0);
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 15px;
   width: 90%;
   text-align: center;
+  h1{
+    font-family: $logo-font;
+    color: rgb(248, 190, 72);
+    font-size: 3em;
+    text-shadow: 0px 0px 3px black;
+    margin-bottom: 15px;
+  }
   #form-data {
     width: 100%;
     input,
     button {
       padding: 5px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       text-align: center;
       width: 100%;
       font-size: 20px;
+      border-radius: 6px;
+      border: 1px solid gray;  
+    }
+    input{
+      background-color:  rgb(244, 236, 221);
+    }
+    button {
+      background: linear-gradient(0deg, rgba(34, 192, 195, 0.511) 0%, rgba(255, 199, 77, 0.929)20%);
+        border: none;
+        border-radius: 6px;
+        text-align: center;
+        padding-left: 0;
+        margin-bottom: 0;
     }
     .radio-flex {
       display: flex;
