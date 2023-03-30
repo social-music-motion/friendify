@@ -20,15 +20,16 @@ const SignupForm = () => {
   // const redirect_uri = "http://localhost:3000/signupform";
 
   useEffect(() => {
+    console.log('signupform useEffect fired off')
     fetch("http://localhost:8000/api/topartists")
       .then((response) => response.json())
       .then((data) => {
         console.log("FETCH DATA: ", data);
-        const justNames = data.items.map((obj) => obj.name).slice(0, 10);
+        const justNames = data.map((obj) => obj.name).slice(0, 10);
         setTopTen(data);
         console.log("JUST NAMES: ", justNames);
       });
-  });
+    }, []);
 
   // let isFirstRender = useRef(true);
   // useEffect(() => {
