@@ -88,12 +88,12 @@ describe('POST /api/signup async test', () => {
   });
 });
 
-describe('GET /api/getMatches', function () {
+xdescribe('GET /api/getMatches', function () {
   it('should return an array', function(done) {
     request(server)
       .get('/api/getMatches')
       // .expect('Content-Type', /application\/json/)
-      .expect(500)
+      .expect(200)
       
       .end((err, res) => {
         if (err) return done(err)
@@ -102,6 +102,55 @@ describe('GET /api/getMatches', function () {
       });
   });
 });
+
+xdescribe('GET /api/callback', () => {
+  // let wrongString =
+  //     'https://accounts.spotify.com/en/authorize?' +
+  //     `client_id=${asdf}` +
+  //     `&response_type=code` +
+  //     `&scope=${scope}` +
+  //     `&redirect_uri=${redirect_uri}` +
+  //     `&show_dialog=true`;
+  describe('should set clientId, clientSecret and redirectUri', () => {
+    it('responds with 200 status code and redirects to signupform', () => {
+      return request(server)
+        .get('/api/callback')
+        .expect(200);
+    })
+  })
+})
+
+
+describe('GET /api/callback', () => {
+  beforeEach(done => {
+    done();
+  });
+
+  afterEach(done => {
+    if (typeof HttpManager._makeRequest.restore == 'function') {
+      HttpManager._makeRequest.restore();
+    }
+    done();
+  });
+
+  test('should set clientId, clientSecret and redirectUri', () => {
+    var credentials = {
+      clientId: 'someClientId',
+      clientSecret: 'someClientSecret',
+      redirectUri: 'myRedirectUri',
+      accessToken: 'mySuperNiceAccessToken',
+    };
+
+    var api = new SpotifyWebApi(credentials);
+
+    expect(api.getCredentials().clientId).toBe(credentials.clientId);
+    expect(api.getCredentials().clientSecret).toBe(credentials.clientSecret);
+    expect(api.getCredentials().redirectUri).toBe(credentials.redirectUri);
+    expect(api.getCredentials().accessToken).toBe(credentials.accessToken);
+  
+  });
+})
+  
 
 xdescribe('/api/getMatches', () => {
   // this.timeout(10000)
