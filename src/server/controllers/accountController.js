@@ -23,6 +23,7 @@ accountController.createAccount = async (req, res, next) => {
       topSongs,
       matchPreference,
       biography,
+      username,
     } = req.body;
 
 
@@ -37,6 +38,7 @@ accountController.createAccount = async (req, res, next) => {
       // join arr on a ';' to save space
       topSongs: topSongs.join(';'),
       biography,
+      username,
     });
     await newAccount.save();
     res.locals.account_creation = 'success';
