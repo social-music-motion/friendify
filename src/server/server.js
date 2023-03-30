@@ -51,12 +51,12 @@ app.get('/api/callback',
     res.status(200).redirect('http://localhost:3000/signupform');
   })
 
-app.get('/api/topartists', apiController.getTopTenArtists, (req, res) => {
-  res.status(200).json(res.locals.topArtists);
+app.get('/api/topartists', apiController.getTopTenArtists, apiController.accessRefresh, apiController.getUserData, (req, res) => {
+  res.status(200).json({ topArtists: res.locals.topArtists, userData: res.locals.userData});
 })
 
-app.get('/api/follow', apiController.accessRefresh, apiController.followUser, (req, res) => {
-  res.status(200).json('followed heyianhey')
+app.post('/api/follow', apiController.accessRefresh, apiController.followUser, (req, res) => {
+  res.status(200).json('followed heyianhey') 
 })
 
   

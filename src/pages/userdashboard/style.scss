@@ -38,7 +38,14 @@
   padding: 20px;
   position: relative;
   border-radius: 20px;
-  color: rgb(247, 231, 201);
+  .follow-button{
+    padding: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+    background-color: red;
+  }
   h4 {
     font-size: 25px;
     margin-top: 15px;

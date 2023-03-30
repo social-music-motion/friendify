@@ -31,6 +31,28 @@ apiController.getTopTenArtists =  async (req, res, next) => {
   }
 }
 
+apiController.getUserData = async (req, res, next) => {
+  try {
+    console.log('req.body in getUserData... ', req.body)
+    const data = await spotifyApi.getMe();
+    let userData = data.body;
+    res.locals.userData = userData;
+    console.log('USER DATA OBJECT', userData)
+    return next();
+    
+  } catch (err) {
+    return next({
+      log: `error accessing account in apiController.getUserData, ${err}`,
+      message: { err: 'middleware error in apicontroller get user data '},
+    })
+  }
+}
+// spotifyApi.getMe()
+//   .then(function(data) {
+//     console.log('Some information about the authenticated user', data.body);
+//   }, function(err) {
+//     console.log('Something went wrong!', err);
+//   });
 
 apiController.accessAccount = async (req, res, next) => {
   try {
@@ -66,7 +88,7 @@ apiController.accessAccount = async (req, res, next) => {
 }
 
 apiController.accessRefresh = async (req, res, next) => {
-
+  console.log('BODY IN ACCESSREFRESH', req.body)
   try {
     spotifyApi.refreshAccessToken().then(
       function(data) {
@@ -89,8 +111,10 @@ apiController.accessRefresh = async (req, res, next) => {
 }
 
 apiController.followUser = async (req, res, next) => {
+  const username = req.body.username
+  console.log("REQ BODYYY " ,req.body.username)
   try {
-    let data = await spotifyApi.followUsers(['heyianhey']);
+    let data = await spotifyApi.followUsers([username]);
     console.log("data from followUsers is", data);
     return next();
   } catch (err) {
