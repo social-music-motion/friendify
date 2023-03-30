@@ -12,18 +12,21 @@ const UserDashboard = () => {
         credentials: 'include',
       })
         .then((result) => result.json())
-        .then((data) => setMatches(data))
+        .then((data) => {
+          console.log('dataaaaaa: ', data)
+          if(Array.isArray(data)) setMatches(data)
+        })
         .then(() => console.log(matches));
     } catch (err) {
       console.log(err);
     }
   }, []);
 
-  const matchElements = [];
-  for (let i = 0; i < matches.length; i++) {
-    console.log('match', matches[i]);
-    matchElements.push(<MatchBox user={matches[i]} />);
-  }
+  // const matchElements = [];
+  // for (let i = 0; i < matches.length; i++) {
+  //   console.log('match', matches[i]);
+  //   matchElements.push(<MatchBox user={matches[i]} />);
+  // }
 
   return (
     <div id='dashboard-page'>

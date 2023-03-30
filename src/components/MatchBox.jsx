@@ -10,9 +10,9 @@ const MatchBox = ({ user }) => {
       <div className={'bio'}>
         <p>
           <strong>About Me</strong>
+        </p>
           <hr />
           {user?.biography}
-        </p>
       </div>
       <div className={'artists'}>
         <p>

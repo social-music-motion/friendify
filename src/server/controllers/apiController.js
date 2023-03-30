@@ -29,17 +29,6 @@ apiController.getTopTenArtists =  async (req, res, next) => {
         message: { err: 'middleware error in apicontroller top ten '},
       })
   }
-    // }. function(err) {
-    //   console.log('Something went wrong! with spotifyApi.getMyTopArtists', err);
-    // }
-    // );
-
-  // } catch (err) {
-  //   return next({
-  //     log: `error accessing account in apiController.getTopTenArtists, ${err}`,
-  //     message: { err: 'middleware error in apicontroller top ten '},
-  //   })
-  // }
 }
 
 
@@ -80,12 +69,16 @@ apiController.accessAccount = async (req, res, next) => {
       log: `error accessing account in apiController.accessAccount, ${err}`,
       message: { err: 'middleware error in login/ '},
     })
-  }
-  
-    
+  }   
 }
 
- 
+/* Follow a user */
+// spotifyApi.followUsers(['thelinmichael'])
+//   .then(function(data) {
+//      console.log(data);
+//   }, function(err) {
+//     console.log('Something went wrong!', err);
+//   }); 
 
 
 

@@ -10,8 +10,6 @@ const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [matchPreference, setMatchPreference] = useState("");
-  const [gender, setGender] = useState("");
-  const [genderPreference, setGenderPreference] = useState("");
   const [profilePicUrl, setProfilePicUrl] = useState("");
   const [bio, setBio] = useState("");
   const navigate = useNavigate();
@@ -26,33 +24,10 @@ const SignupForm = () => {
       .then((data) => {
         console.log("FETCH DATA: ", data);
         const justNames = data.map((obj) => obj.name).slice(0, 10);
-        setTopTen(data);
+        setTopTen(justNames);
         console.log("JUST NAMES: ", justNames);
       });
     }, []);
-
-  // let isFirstRender = useRef(true);
-  // useEffect(() => {
-  //   if (isFirstRender.current) {
-  //     isFirstRender.current = false;
-  //   } else {
-  //     try {
-  //       fetch('http://localhost:8000/api/topartists')
-  //         .then((response) => response.json)
-  //         .then((data) => {
-  //           console.log('FETCH DATA: ', data);
-  //           const justNames = data.items
-  //             .map((obj) => obj.name)
-  //             .slice(0, 10);
-  //           setTopTen(justNames);
-  //           console.log('JUST NAMES: ', justNames);
-  //         });
-
-  //     } catch (error) {
-  //       console.log(error, 'ERROR IN ')
-  //     }
-  //   }
-  // }, []);
 
   const createUser = () => {
     const body = {
@@ -62,8 +37,6 @@ const SignupForm = () => {
       password: password,
       topSongs: topTen,
       matchPreference: matchPreference,
-      gender: gender,
-      genderPreference: genderPreference,
       profilePicUrl: profilePicUrl,
       biography: bio,
     };
@@ -134,7 +107,7 @@ const SignupForm = () => {
               Password
             </label>
             <input
-              type="text"
+              type="password"
               id="password"
               required={true}
               placeholder="Password"
@@ -147,6 +120,7 @@ const SignupForm = () => {
             <input
               type="number"
               id="matchPref"
+              required={true}
               placeholder="How picky are you: 1-10"
               min="1"
               max="10"
@@ -162,9 +136,9 @@ const SignupForm = () => {
               placeholder="Profile picture URL"
               onChange={(e) => setProfilePicUrl(e.target.value)}
             />
-            <p>What gender are you?</p>
+            {/* <p>What gender are you?</p> */}
 
-            <div className="radio-flex">
+            {/* <div className="radio-flex">
               <input
                 type="radio"
                 id="male"
@@ -215,11 +189,11 @@ const SignupForm = () => {
                 onChange={(e) => setGenderPreference("nonbinary")}
               />
               <label htmlFor="nonBinaryPref">Non-binary</label>
-            </div>
+            </div> */}
 
             <br />
             <label htmlFor="bio" style={{ display: "none" }}>
-              Last Name
+              About me: 
             </label>
             <input
               type="text"
