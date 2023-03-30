@@ -23,6 +23,7 @@ const accountSchema = new Schema(
     topSongs: { type: String, required: true },
     // metric will be used to match users with one another (matches user with others on minimum number of common artists)
     matchPreference: { type: Number, required: true, default: 1 },
+    username: {type: String, required: true },
   },
   // explicitly name collection so no pluralization bullshit
   { collection: 'accounts' }

@@ -12,6 +12,7 @@ const SignupForm = () => {
   const [matchPreference, setMatchPreference] = useState("");
   const [profilePicUrl, setProfilePicUrl] = useState("");
   const [bio, setBio] = useState("");
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
   // const client_id = "paste your client_id here";
   // const client_secret = "paste your client_secret here";
@@ -23,8 +24,9 @@ const SignupForm = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("FETCH DATA: ", data);
-        const justNames = data.map((obj) => obj.name).slice(0, 10);
+        const justNames = data.topArtists.map((obj) => obj.name).slice(0, 10);
         setTopTen(justNames);
+        setUsername(data.userData.id)
         console.log("JUST NAMES: ", justNames);
       });
     }, []);
@@ -39,6 +41,7 @@ const SignupForm = () => {
       matchPreference: matchPreference,
       profilePicUrl: profilePicUrl,
       biography: bio,
+      username: username,
     };
 
     axios
