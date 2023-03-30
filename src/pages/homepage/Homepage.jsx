@@ -35,7 +35,7 @@ const Homepage = () => {
     <div class='centered-page'>
       <div className='homepage-container feed-stripe'>
         <div id='listen-box'>
-          <h1 className='logo'>Listen</h1>
+          <h1 className='logo'>friendify</h1>
           <Login />
           <div id='new-member-container'>
             <p>
@@ -43,7 +43,7 @@ const Homepage = () => {
               <br />
               Connect Spotify to get started!
             </p>
-            <button onClick={requestSpotifyLogin}>Spotify Login</button>
+            <button id='spot-btn' onClick={requestSpotifyLogin}>Spotify Login</button>
           </div>
         </div>
       </div>
