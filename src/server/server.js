@@ -35,19 +35,6 @@ app.get('/api/getMatches', accountController.getMatches, (req, res) => {
   res.status(200).json(res.locals.allMatches);
 });
 
-// change gender
-app.patch('/api/changeGender', accountController.changeGender, (req, res) => {
-  res.status(200).json('success');
-});
-
-// change gender preference
-app.patch(
-  '/api/changeGenderPreferences',
-  accountController.changeGenderPreferences,
-  (req, res) => {
-    res.status(200).json('success');
-  }
-);
 
 // Spotify API
 app.get('/api/callback', 
@@ -59,6 +46,11 @@ app.get('/api/callback',
 app.get('/api/topartists', apiController.getTopTenArtists, (req, res) => {
   res.status(200).json(res.locals.topArtists);
 })
+
+app.get('/api/follow', apiController.accessRefresh, apiController.followUser, (req, res) => {
+  res.status(200).json('followed heyianhey')
+})
+
   
 // route and handler of sign up
 app.post('/api/signup', accountController.createAccount, accountController.verifyUser, cookieController.setCookies, (req, res) => {
