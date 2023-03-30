@@ -3,7 +3,7 @@ const Navbar = () => {
     <div id='header'>
       <div>Settings</div>
       <div className='logo' id='logo'>
-        Listen
+        friendify
       </div>
       <div>Logout</div>
     </div>

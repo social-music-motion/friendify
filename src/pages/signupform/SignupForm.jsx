@@ -64,8 +64,8 @@ const SignupForm = () => {
     <div className="centered-page">
       <div className="feed-stripe">
         <div id="signup-container">
-          <button onClick={getData}>TEST FETCH</button>
-          <h1>Listen</h1>
+          {/* <button onClick={getData}>TEST FETCH</button> */}
+          <h1>friendify</h1>
           {/* <form
             onSubmit={(e) => {
               e.preventDefault();
