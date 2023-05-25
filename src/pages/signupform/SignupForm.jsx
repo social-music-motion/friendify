@@ -18,6 +18,8 @@ const SignupForm = () => {
   // const client_secret = "paste your client_secret here";
   // const redirect_uri = "http://localhost:3000/signupform";
 
+  let isFirstRender = useRef(true); 
+  // isFirstRender looks like {current: true};
   useEffect(() => {
     console.log('signupform useEffect fired off')
     fetch("http://localhost:8000/api/topartists")

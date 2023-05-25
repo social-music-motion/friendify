@@ -15,12 +15,12 @@ accountController.createAccount = async (req, res, next) => {
     console.log('req.body in createAccount.. ', req.body);
     // destructure info from req body
     const {
-      profilePicUrl,
+      //profilePicUrl,
       email,
       firstName,
       lastName,
       password,
-      topSongs,
+      //topSongs,
       matchPreference,
       biography,
       username,
@@ -29,7 +29,7 @@ accountController.createAccount = async (req, res, next) => {
 
     // create new account object invoking Account schema
     const newAccount = new Account({
-      profilePicUrl,
+      //profilePicUrl,
       email,
       firstName,
       lastName,

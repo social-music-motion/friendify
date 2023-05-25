@@ -31,6 +31,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+//TEST
+app.get('/testingroutes', (req, res) => {
+  res.status(200).json('success')
+})
+
+
+
 // get all matches for particular user
 app.get('/api/getMatches', accountController.getMatches, (req, res) => {
   res.status(200).json(res.locals.allMatches);
@@ -85,3 +92,5 @@ const port = 8000;
 app.listen(port, () => {
   console.log(`Server has started on ${port}`);
 });
+
+module.exports = app;

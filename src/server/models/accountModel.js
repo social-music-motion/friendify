@@ -20,7 +20,7 @@ const accountSchema = new Schema(
     password: { type: String, required: true },
     biography: { type: String, default: '...' },
     // received as an array from spotify api (from front end) stored as a string bc less memory expensive
-    topSongs: { type: String, required: true },
+    topSongs: { type: String, required: false },
     // metric will be used to match users with one another (matches user with others on minimum number of common artists)
     matchPreference: { type: Number, required: true, default: 1 },
     username: {type: String, required: true },
