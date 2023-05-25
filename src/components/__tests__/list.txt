@@ -1,0 +1,16 @@
+setup/teardown: should we worry about this?
+
+TESTS FOR LOGIN.JSX:
+    DISPLAY
+        test whether "email" and "password" fields have correct texts
+        
+    DATA FETCHING:
+        make dummy api data to test requests
+        test axios post request route (to server)
+        does "sendToServer" body contain the correct data?
+
+    LISTENERS
+        does form button event listener call a function?
+        does form button send data from state?
+        does changing email text field change the state?
+        does changing password text field change the state?
