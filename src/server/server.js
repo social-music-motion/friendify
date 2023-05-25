@@ -9,7 +9,8 @@ const apiController = require('./controllers/apiController')
 const SpotifyWebApi = require("spotify-web-api-node");
 const dotenv = require('dotenv').config();
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://ian:lol@friendify.std6cyj.mongodb.net/?retryWrites=true&w=majority',
+const MONGO_URI = process.env.MONGO_URI;
+mongoose.connect(MONGO_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
