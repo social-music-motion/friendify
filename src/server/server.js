@@ -5,10 +5,11 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const accountController = require('./controllers/accountController');
 const cookieController = require('./controllers/cookieController');
+const apiController = require('./controllers/apiController')
+const SpotifyWebApi = require("spotify-web-api-node");
+const dotenv = require('dotenv').config();
 // Connect to MongoDB
-mongoose.connect(
-    //paste your mongoDB Atlas key here
-  'mongodb+srv://',
+mongoose.connect('mongodb+srv://ian:lol@friendify.std6cyj.mongodb.net/?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -34,23 +35,26 @@ app.get('/api/getMatches', accountController.getMatches, (req, res) => {
   res.status(200).json(res.locals.allMatches);
 });
 
-// change gender
-app.patch('/api/changeGender', accountController.changeGender, (req, res) => {
-  res.status(200).json('success');
-});
 
-// change gender preference
-app.patch(
-  '/api/changeGenderPreferences',
-  accountController.changeGenderPreferences,
+// Spotify API
+app.get('/api/callback', 
+  apiController.accessAccount,
   (req, res) => {
-    res.status(200).json('success');
-  }
-);
+    res.status(200).redirect('http://localhost:3000/signupform');
+  })
 
+app.get('/api/topartists', apiController.getTopTenArtists, apiController.accessRefresh, apiController.getUserData, (req, res) => {
+  res.status(200).json({ topArtists: res.locals.topArtists, userData: res.locals.userData});
+})
+
+app.post('/api/follow', apiController.accessRefresh, apiController.followUser, (req, res) => {
+  res.status(200).json('followed heyianhey') 
+})
+
+  
 // route and handler of sign up
-app.post('/api/signup', accountController.createAccount, (req, res) => {
-  res.status(200).json({ created_status: res.locals.account_creation });
+app.post('/api/signup', accountController.createAccount, accountController.verifyUser, cookieController.setCookies, (req, res) => {
+  res.status(200).json({ created_status: res.locals.account_creation, login: 'did it' });
 });
 
 // aroute and handler of logging in

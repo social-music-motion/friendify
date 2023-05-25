@@ -45,21 +45,23 @@ const Login = () => {
           sendToServer(e);
         }}
       >
-        <label htmlFor='email'>Email: </label>
+        {/* <label htmlFor='email'>Email: </label> */}
         <input
           type='text'
           id='email'
           required={true}
           onChange={(e) => setUsername(e.target.value)}
+          placeholder='Email'
         />
         <br />
-        <label htmlFor='password'>Password: </label>
+        {/* <label htmlFor='password' >Password: </label> */}
         <input
           type='password'
           id='password'
           required={true}
           autoComplete='on'
           onChange={(e) => setPassword(e.target.value)}
+          placeholder='Password'
         />
         <br />
         <input id='login-button' type='submit' value='Login' />

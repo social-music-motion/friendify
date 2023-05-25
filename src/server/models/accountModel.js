@@ -18,17 +18,12 @@ const accountSchema = new Schema(
     // unique account identifier along with Account._id
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    gender: { type: String, required: true, default: 'male' },
-    genderPreference: {
-      type: String,
-      required: true,
-      default: this.gender === 'male' ? 'female' : 'male',
-    },
     biography: { type: String, default: '...' },
     // received as an array from spotify api (from front end) stored as a string bc less memory expensive
     topSongs: { type: String, required: true },
     // metric will be used to match users with one another (matches user with others on minimum number of common artists)
     matchPreference: { type: Number, required: true, default: 1 },
+    username: {type: String, required: true },
   },
   // explicitly name collection so no pluralization bullshit
   { collection: 'accounts' }
@@ -42,7 +37,7 @@ accountSchema.pre('save', async function (next) {
       const hash = await bcrypt.hash(user.password, 10);
       user.password = hash;
       return next();
-    } catch (e) {
+    } catch (err) {
       return next(err);
     }
   } else {

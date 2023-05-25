@@ -12,7 +12,10 @@ const UserDashboard = () => {
         credentials: 'include',
       })
         .then((result) => result.json())
-        .then((data) => setMatches(data))
+        .then((data) => {
+          console.log('dataaaaaa: ', data)
+          if(Array.isArray(data)) setMatches(data)
+        })
         .then(() => console.log(matches));
     } catch (err) {
       console.log(err);
