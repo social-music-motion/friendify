@@ -6,7 +6,7 @@
 
 ## Our Tech Stack
 
-MongoDB(mongoose), Node/Express.js, Typescript, React, React Router, Redux, CSS/SCSS + Sass, Jest, Supertest
+MongoDB(mongoose), Node/Express.js, Typescript, React, React Router, CSS/SCSS + Sass, Jest, Supertest
 
 ---
 
