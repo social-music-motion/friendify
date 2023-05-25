@@ -2,42 +2,6 @@ const Account = require('../models/accountModel');
 
 const accountController = {};
 
-/*
-Get Matches Algorithm
-- Input: logged in user, logged in user's match preference number, array of all other users
-
-- In order to get matches for a particular user we must: 
-- 1. Iterate through the users that aren't our current logged in user
-- 2. For every one of those users we must iterate through our logged in user's list of top songs/artists and see if our current iteration's user's topsongs/artists include our song
-- 3. keep track of how many songs match
-- 4. Push users into our matches array based on both our logged in user's match preference and our comparison user's match preference
-- 5. Return that array to the front end
-- Output: Array of matches
-
-*/
-function getMatches(currentUser, matchPref, allOtherUsers) {
-  // Intialize our array of matches
-  const allMatches = [];
-  // loop through our allOtherUsers (array of objects)
-  for (let user of allOtherUsers) {
-    // initialize count to keep track of common songs/artists
-    let count = 0;
-    // iterate thru our current user's top songs
-    for (let song of currentUser.topSongs.split(';')) {
-      // check for matches in our allOtherUsers
-      if (user.topSongs.split(';').includes(song)) {
-        // have match? increment count
-        count += 1;
-      }
-    }
-    // condition to add to matches array
-    if (count >= matchPref && user.matchPreference <= count) {
-      allMatches.push(user);
-    }
-  }
-  // return all matches array
-  return allMatches;
-}
 
 /* 
 Create Account Middleware:
@@ -48,25 +12,24 @@ Create Account Middleware:
 */
 accountController.createAccount = async (req, res, next) => {
   try {
-    console.log(req.body);
+    console.log('req.body in createAccount.. ', req.body);
     // destructure info from req body
     const {
-      profilePicUrl,
+      //profilePicUrl,
       email,
       firstName,
       lastName,
       password,
-      topSongs,
+      //topSongs,
       matchPreference,
-      gender,
-      genderPreference,
       biography,
+      username,
     } = req.body;
 
 
     // create new account object invoking Account schema
     const newAccount = new Account({
-      profilePicUrl,
+      //profilePicUrl,
       email,
       firstName,
       lastName,
@@ -74,15 +37,14 @@ accountController.createAccount = async (req, res, next) => {
       matchPreference,
       // join arr on a ';' to save space
       topSongs: topSongs.join(';'),
-      gender,
-      genderPreference,
       biography,
+      username,
     });
     await newAccount.save();
     res.locals.account_creation = 'success';
     return next();
   } catch (e) {
-    e.log = 'email already in use';
+    e.log = 'error in creating new Account';
     return next(e);
   }
 };
@@ -123,6 +85,42 @@ accountController.verifyUser = async (req, res, next) => {
     return next(e);
   }
 };
+/*
+Get Matches Algorithm
+- Input: logged in user, logged in user's match preference number, array of all other users
+
+- In order to get matches for a particular user we must: 
+- 1. Iterate through the users that aren't our current logged in user
+- 2. For every one of those users we must iterate through our logged in user's list of top songs/artists and see if our current iteration's user's topsongs/artists include our song
+- 3. keep track of how many songs match
+- 4. Push users into our matches array based on both our logged in user's match preference and our comparison user's match preference
+- 5. Return that array to the front end
+- Output: Array of matches
+
+*/
+function getMatchesAlgo(currentUser, matchPref, allOtherUsers) {
+  // Intialize our array of matches
+  const allMatches = [];
+  // loop through our allOtherUsers (array of objects)
+  for (let user of allOtherUsers) {
+    // initialize count to keep track of common songs/artists
+    let count = 0;
+    // iterate thru our current user's top songs
+    for (let song of currentUser.topSongs.split(';')) {
+      // check for matches in our allOtherUsers
+      if (user.topSongs.split(';').includes(song)) {
+        // have match? increment count
+        count += 1;
+      }
+    }
+    // condition to add to matches array
+    if (count >= matchPref && user.matchPreference <= count) {
+      allMatches.push(user);
+    }
+  }
+  // return all matches array
+  return allMatches;
+}
 
 /* 
 Get Matches Middleware
@@ -137,19 +135,19 @@ Get Matches Middleware
 accountController.getMatches = async (req, res, next) => {
   try {
     // grab userID from cookie
+    console.log('grab userid from cookie')
     const userID = await req.cookies.cookieID;
-
+    console.log('userID', userID)
     // grab current account data based on that cookie
     const currentAccount = await Account.findOne({ _id: userID });
 
     // grab all other accounts
     const allOtherAccounts = await Account.find({
-      gender: currentAccount.genderPreference,
       _id: { $ne: userID },
     });
-    console.log(currentAccount.firstName);
-    console.log(currentAccount.matchPreference);
-    const matches = getMatches(
+    console.log('inside accountController.getMatches, firstName.. ', currentAccount.firstName);
+    console.log('match preference.. ', currentAccount.matchPreference);
+    const matches = getMatchesAlgo(
       currentAccount,
       currentAccount.matchPreference,
       allOtherAccounts
@@ -158,10 +156,15 @@ accountController.getMatches = async (req, res, next) => {
     // // save matches into a local res variable
     res.locals.allMatches = matches;
     return next();
-  } catch (e) {
-    return next(e);
+  } catch (err) {
+    return next({
+      log: 'Express error handler caught accountController.getMatches error',
+      status: 500,
+      message: { err: 'An error occurred in accountController.getMatches' },
+    });
   }
 };
+
 
 /*
 Change Gender Controll

@@ -12,16 +12,22 @@ const UserDashboard = () => {
         credentials: 'include',
       })
         .then((result) => result.json())
-        .then((data) => setMatches(data))
+        .then((data) => {
+          console.log('dataaaaaa: ', data)
+          if(Array.isArray(data)) setMatches(data)
+        })
         .then(() => console.log(matches));
     } catch (err) {
       console.log(err);
     }
   }, []);
 
+  // matchElements seems redundant???
   const matchElements = [];
   for (let i = 0; i < matches.length; i++) {
     console.log('match', matches[i]);
+    // creating a matchbox for each match in the matches array
+    // each match box has a property user set to matches[i]
     matchElements.push(<MatchBox user={matches[i]} />);
   }
 

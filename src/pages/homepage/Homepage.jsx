@@ -11,16 +11,14 @@ const Homepage = () => {
 
   const requestSpotifyLogin = () => {
     //SPOTIFY API KEY
-    const client_id = 'paste your client_id here';
-    // unsure of this right now
-    const client_secret = 'paste your client_secret here';
+    const client_id = '69f2651f537c4e5681a1b568df57b973';
     //brings back to this page after spotify login
-    const redirect_uri = 'http://localhost:3000/signupform';
+    const redirect_uri = 'http://localhost:8000/api/callback';
     //what we want to recieve from spotify
-    var scope = 'user-read-email user-top-read';
+    var scope = 'user-read-email user-top-read user-follow-modify user-follow-read';
 
-    localStorage.setItem('client_id', client_id);
-    localStorage.setItem('client_secret', client_secret);
+    //localStorage.setItem('client_id', client_id);
+    //localStorage.setItem('client_secret', client_secret);
 
     let queryString =
       'https://accounts.spotify.com/en/authorize?' +
@@ -37,7 +35,7 @@ const Homepage = () => {
     <div class='centered-page'>
       <div className='homepage-container feed-stripe'>
         <div id='listen-box'>
-          <h1 className='logo'>Listen</h1>
+          <h1 className='logo'>friendify</h1>
           <Login />
           <div id='new-member-container'>
             <p>
@@ -45,7 +43,7 @@ const Homepage = () => {
               <br />
               Connect Spotify to get started!
             </p>
-            <button onClick={requestSpotifyLogin}>Spotify Login</button>
+            <button id='spot-btn' onClick={requestSpotifyLogin}>Spotify Login</button>
           </div>
         </div>
       </div>
