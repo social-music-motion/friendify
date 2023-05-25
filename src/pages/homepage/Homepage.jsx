@@ -11,14 +11,14 @@ const Homepage = () => {
 
   const requestSpotifyLogin = () => {
     //SPOTIFY API KEY
-
+    const client_id = '69f2651f537c4e5681a1b568df57b973';
     //brings back to this page after spotify login
     const redirect_uri = 'http://localhost:8000/api/callback';
     //what we want to recieve from spotify
-    var scope = 'user-read-email user-top-read';
+    var scope = 'user-read-email user-top-read user-follow-modify user-follow-read';
 
-    const client_id = '69f2651f537c4e5681a1b568df57b973';
-    // localStorage.setItem('client_id', client_id);
+    //localStorage.setItem('client_id', client_id);
+    //localStorage.setItem('client_secret', client_secret);
 
     let queryString =
       'https://accounts.spotify.com/en/authorize?' +
