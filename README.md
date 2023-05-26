@@ -1,6 +1,6 @@
 # Friendify
 
-##Open source, social app focused on matching users through the power of music
+## Open source, social app focused on matching users through the power of music
 
 ---
 
