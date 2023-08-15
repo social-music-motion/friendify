@@ -1,37 +1,44 @@
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import "./style.scss";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './style.scss';
+import axios from 'axios';
 
 const SignupForm = () => {
   const [topTen, setTopTen] = useState([]);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [matchPreference, setMatchPreference] = useState("");
-  const [profilePicUrl, setProfilePicUrl] = useState("");
-  const [bio, setBio] = useState("");
-  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [matchPreference, setMatchPreference] = useState('');
+  const [profilePicUrl, setProfilePicUrl] = useState('');
+  const [bio, setBio] = useState('');
+  const [username, setUsername] = useState('');
   const navigate = useNavigate();
   // const client_id = "paste your client_id here";
   // const client_secret = "paste your client_secret here";
   // const redirect_uri = "http://localhost:3000/signupform";
 
-  let isFirstRender = useRef(true); 
-  // isFirstRender looks like {current: true};
   useEffect(() => {
-    console.log('signupform useEffect fired off')
-    fetch("http://localhost:8000/api/topartists")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("FETCH DATA: ", data);
-        const justNames = data.topArtists.map((obj) => obj.name).slice(0, 10);
-        setTopTen(justNames);
-        setUsername(data.userData.id)
-        console.log("JUST NAMES: ", justNames);
-      });
-    }, []);
+    // console.log('signupform useEffect fired off');
+    const getTopArtists = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/api/topartists');
+        const data = await res.json();
+
+        console.log('FETCH DATA: ', data);
+
+        if (Array.isArray(data)) {
+          const justNames = data.topArtists.map((obj) => obj.name).slice(0, 10);
+          setTopTen(justNames);
+          setUsername(data.userData.id);
+          console.log('JUST NAMES: ', justNames);
+        }
+      } catch (err) {
+        console.log('Error fetching top artists: ', err);
+      }
+    };
+    getTopArtists();
+  }, []);
 
   const createUser = () => {
     const body = {
@@ -47,25 +54,25 @@ const SignupForm = () => {
     };
 
     axios
-      .post("http://localhost:8000/api/signup", body, {
+      .post('http://localhost:8000/api/signup', body, {
         withCredentials: true,
       })
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
-          navigate("/userDashboard");
+          navigate('/userDashboard');
         }
       })
       .catch((e) => console.log(e));
   };
   const getData = () => {
-    console.log("TOP TEN HERE ",topTen);
+    console.log('TOP TEN HERE ', topTen);
   };
 
   return (
-    <div className="centered-page">
-      <div className="feed-stripe">
-        <div id="signup-container">
+    <div className='centered-page'>
+      <div className='feed-stripe'>
+        <div id='signup-container'>
           {/* <button onClick={getData}>TEST FETCH</button> */}
           <h1>friendify</h1>
           {/* <form
@@ -74,71 +81,71 @@ const SignupForm = () => {
               createUser(e);
             }}
           > */}
-          <div id="form-data">
-            <label htmlFor="fName" style={{ display: "none" }}>
+          <div id='form-data'>
+            <label htmlFor='fName' style={{ display: 'none' }}>
               First Name
             </label>
             <input
-              type="text"
-              id="fName"
+              type='text'
+              id='fName'
               required={true}
-              placeholder="First Name"
+              placeholder='First Name'
               onChange={(e) => setFirstName(e.target.value)}
             />
             <br />
-            <label htmlFor="lName" style={{ display: "none" }}>
+            <label htmlFor='lName' style={{ display: 'none' }}>
               Last Name
             </label>
             <input
-              type="text"
-              id="lName"
+              type='text'
+              id='lName'
               required={true}
-              placeholder="Last Name"
+              placeholder='Last Name'
               onChange={(e) => setLastName(e.target.value)}
             />
             <br />
-            <label htmlFor="email" style={{ display: "none" }}>
+            <label htmlFor='email' style={{ display: 'none' }}>
               Email
             </label>
             <input
-              type="email"
-              id="email"
+              type='email'
+              id='email'
               required={true}
-              placeholder="Email"
+              placeholder='Email'
               onChange={(e) => setEmail(e.target.value)}
             />
             <br />
-            <label htmlFor="password" style={{ display: "none" }}>
+            <label htmlFor='password' style={{ display: 'none' }}>
               Password
             </label>
             <input
-              type="password"
-              id="password"
+              type='password'
+              id='password'
               required={true}
-              placeholder="Password"
+              placeholder='Password'
               onChange={(e) => setPassword(e.target.value)}
             />
             <br />
-            <label htmlFor="matchPref" style={{ display: "none" }}>
+            <label htmlFor='matchPref' style={{ display: 'none' }}>
               How picky are you?
             </label>
             <input
-              type="number"
-              id="matchPref"
+              type='number'
+              id='matchPref'
               required={true}
-              placeholder="How picky are you: 1-10"
-              min="1"
-              max="10"
+              placeholder='How picky are you: 1-10'
+              min='1'
+              max='10'
               onChange={(e) => setMatchPreference(e.target.value)}
             />
             <br />
-            <label htmlFor="profilePic" style={{ display: "none" }}>
+            <label htmlFor='profilePic' style={{ display: 'none' }}>
               Enter a profile picture URL:
             </label>
             <input
-              type="url"
-              id="profilePic"
-              placeholder="Profile picture URL"
+              type='url'
+              id='profilePic'
+              placeholder='Profile picture URL'
               onChange={(e) => setProfilePicUrl(e.target.value)}
             />
             {/* <p>What gender are you?</p> */}
@@ -197,13 +204,13 @@ const SignupForm = () => {
             </div> */}
 
             <br />
-            <label htmlFor="bio" style={{ display: "none" }}>
-              About me: 
+            <label htmlFor='bio' style={{ display: 'none' }}>
+              About me:
             </label>
             <input
-              type="text"
-              id="bio"
-              placeholder="Write something about yourself"
+              type='text'
+              id='bio'
+              placeholder='Write something about yourself'
               onChange={(e) => setBio(e.target.value)}
             />
             <br />
