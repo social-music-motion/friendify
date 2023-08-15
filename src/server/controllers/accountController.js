@@ -2,7 +2,6 @@ const Account = require('../models/accountModel');
 
 const accountController = {};
 
-
 /* 
 Create Account Middleware:
 - 1. Receive our information from the front end
@@ -26,7 +25,6 @@ accountController.createAccount = async (req, res, next) => {
       username,
     } = req.body;
 
-
     // create new account object invoking Account schema
     const newAccount = new Account({
       //profilePicUrl,
@@ -36,7 +34,7 @@ accountController.createAccount = async (req, res, next) => {
       password,
       matchPreference,
       // join arr on a ';' to save space
-      topSongs: topSongs.join(';'),
+      // topSongs: topSongs.join(';'),
       biography,
       username,
     });
@@ -135,9 +133,9 @@ Get Matches Middleware
 accountController.getMatches = async (req, res, next) => {
   try {
     // grab userID from cookie
-    console.log('grab userid from cookie')
+    console.log('grab userid from cookie');
     const userID = await req.cookies.cookieID;
-    console.log('userID', userID)
+    console.log('userID', userID);
     // grab current account data based on that cookie
     const currentAccount = await Account.findOne({ _id: userID });
 
@@ -145,7 +143,10 @@ accountController.getMatches = async (req, res, next) => {
     const allOtherAccounts = await Account.find({
       _id: { $ne: userID },
     });
-    console.log('inside accountController.getMatches, firstName.. ', currentAccount.firstName);
+    console.log(
+      'inside accountController.getMatches, firstName.. ',
+      currentAccount.firstName
+    );
     console.log('match preference.. ', currentAccount.matchPreference);
     const matches = getMatchesAlgo(
       currentAccount,
@@ -164,7 +165,6 @@ accountController.getMatches = async (req, res, next) => {
     });
   }
 };
-
 
 /*
 Change Gender Controll
